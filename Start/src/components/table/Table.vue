@@ -62,9 +62,10 @@
             </tr>
             </thead>
             <tbody>
-            <tr>
+                <!--qaytor yaratish v-for loop ni ichiga qoyish kerak-->
+            <tr v-for="item in arrayList" :key="item.id">
                 <th scope="row"><input type="checkbox"></th>
-                <td>{{name}}</td>
+                <td>{{item.product}}</td>
                 <td>Otto</td>
                 <td>@mdo</td>
             </tr>
@@ -79,15 +80,27 @@
     export default {
         data(){
             return{
-                name: ''
+                arrayList: []
+            }
+        },
+        methods: {
+            getProductHandler() {
+                getProducts().then(res => {
+                    this.arrayList = res
+                    //o'zizga kerakli propertylarni ustunlarga chiqarib olasiz ))
+                    console.log(res)
+                }).catch(err => {
+                    console.log(err)
+                })
             }
         },
         created() {
-            getProducts()
-                .then(value => this.name = value.id)
-                .catch((err) =>{
-                    console.log(err);
-            } )
+            this.getProductHandler()
+            // getProducts()
+            //     .then(value => this.name = value.id)
+            //     .catch((err) =>{
+            //         console.log(err);
+            // } )
         }
     }
 </script>
